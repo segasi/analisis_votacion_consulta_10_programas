@@ -21,9 +21,4 @@ tema <-  theme_minimal() +
         axis.text = element_text(size = 16, face = "bold", family="Didact Gothic Regular"))
 
 
-### Renombrar variables ----
-bd <- 
-  bd %>% 
-  rename(idcasilla = id_casilla,
-         estado = nom_ent,
-         municipio = nom_mun)
+
