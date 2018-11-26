@@ -2,6 +2,10 @@
 library(pacman)
 p_load(ggrepel, scales, tidyverse)
 
+### Setup ----
+Sys.setlocale("LC_ALL", "es_ES.UTF-8") # Cambiar locale para prevenir problemas con caracteres especiales
+options(scipen=999) # Prevenir notación científica
+
 ### Cargar datos ----
 bd <- read_csv("01_datos/resultado_mesas.csv")
 
