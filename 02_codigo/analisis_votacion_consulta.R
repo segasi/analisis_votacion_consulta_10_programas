@@ -456,3 +456,27 @@ voto_por_casilla %>%
   tema
 
 ggsave(filename = "casillas_mas_tres_votos_por_minuto.png", path = "03_graficas/", width = 15, height = 10, dpi = 100) 
+
+
+### Gráfica: número de casillas con promedio de 3 o más votos por minuto, por estado ----
+voto_por_casilla %>% 
+  mutate(votos_por_minuto = round(suma_p01_total/(60*10*2), 1)) %>%
+  select(estado, casilla, suma_p01_total, votos_por_minuto) %>% 
+  filter(votos_por_minuto > 3) %>%
+  count(estado) %>% 
+  mutate(estado = str_to_title(estado),
+         estado = case_when(estado == "Cd Mexico" ~ "Cd. de México",
+                            estado == "Mexico" ~ "México",
+                            estado == "Yucatan" ~ "Yucatán",
+                            TRUE ~ estado)) %>% 
+  ggplot() +
+  geom_col(aes(x = fct_reorder(estado, n), y = n), fill = "steelblue") +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(title = str_to_upper(str_wrap("número de casillas en las que se registraron en promedio 3 o más votos por minuto, todos los minutos de la consulta, por estado", width = 75)),
+       subtitle = str_wrap("Para este cálculo consideré que las casillas estuvieron en funcionamiento 1,200 minutos,* equivalentes a 60 minutos x 10 horas x 2 días. Solo incluyo las entidades en las que alguna casilla registró más de 3 votos por minuto.", width = 140),
+       x = "\n",
+       y = "\nNúmero de casillas\n",
+       caption = str_wrap("\nSebastián Garrido de Sierra / @segasi / Fuente: México Decide", width = 120)) +
+  tema
+
+ggsave(filename = "casillas_mas_tres_votos_por_minuto_por_estado.png", path = "03_graficas/", width = 15, height = 10, dpi = 100)  
