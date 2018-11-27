@@ -420,3 +420,19 @@ voto_por_casilla %>%
   tema
 
 ggsave(filename = "histograma_votos_por_minuto_diario.png", path = "03_graficas/", width = 15, height = 10, dpi = 100)
+
+
+### Gráfica: boxplot votos por minuto por casilla ---
+voto_por_casilla %>% 
+  mutate(votos_por_minuto = round(suma_p01_total/(60*10*2), 1)) %>% 
+  ggplot() +
+  geom_boxplot(aes(x = "", y = votos_por_minuto), outlier.colour = "salmon", color = "salmon", fill = "steelblue") +
+  coord_flip() +
+  labs(title = str_wrap("DISTRIBUCIÓN DE LOS VOTOS POR MINUTO RECIBIDOS EN LAS CASILLAS DE LA CONSULTA DE LOS 10 PROGRAMAS PRIORITARIOS", width = 75),
+       subtitle = str_wrap("Para este cálculo consideré que las casillas estuvieron en funcionamiento 1,200 minutos,* equivalentes a 60 minutos x 10 horas x 2 días", width = 150),
+       x = "Votos por minuto\n",
+       y = "\nNúmero de casillas\n",
+       caption = str_wrap("\nSebastián Garrido de Sierra / @segasi / Fuente: México Decide / *Nota: A diferencia de la consulta sobre el NAICM, para ésta no encontré algún documento que indicara el horario de funcionamiento de las casillas. Antes esto, asumí que era el mismo que en la primera consulta.", width = 150)) +
+  tema
+
+ggsave(filename = "boxplot_votos_por_minuto_diario.png", path = "03_graficas/", width = 15, height = 10, dpi = 100)
