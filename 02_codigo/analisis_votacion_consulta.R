@@ -303,9 +303,9 @@ voto_acumulado_por_edo <-
          acumulado_p10_no = cumsum(suma_p10_no)) %>% 
   ungroup()
 
-### Gráfica: comparación del número de votos registrados en las dos consultas nacionale ----
+### Gráfica: comparación del número de votos registrados en las dos consultas nacionales ----
 
-tibble(tipo = c("Participación en la elección federal de 2018", "Votos recibidos por AMLO en la elección presidencial de 2018", "Votos recibidos por candidates de Morena a Dip. Fed. en 2018", "Votos recibidos por candidates de Morena al Senado en 2018", "Participación en la consulta del NAIM", "Participación en la consulta del consulta de los 10 Programas Prioritarios"),
+tibble(tipo = c("Participación en la elección federal de 2018", "Votos recibidos por AMLO en la elección presidencial de 2018", "Votos recibidos por candidates de Morena a Dip. Fed. en 2018", "Votos recibidos por candidates de Morena al Senado en 2018", "Participación en la consulta del NAIM", "Participación en la consulta de los 10 Programas Prioritarios"),
        votos = c(56512557, 30113483, 20972573, 21261577, 1096990, 946081),
        para_color = c("Fed", "Morena", "Morena", "Morena", "Morena", "Morena")) %>% 
   mutate(valor_grandes = ifelse(votos > 1500000, paste(round(votos/1000000, 1), "millones", sep = " "), ""),
