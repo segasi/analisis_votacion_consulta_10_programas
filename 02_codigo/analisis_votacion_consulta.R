@@ -303,6 +303,26 @@ voto_acumulado_por_edo <-
          acumulado_p10_no = cumsum(suma_p10_no)) %>% 
   ungroup()
 
+### Gráfica: comparación del número de votos registrados en las dos consultas nacionale ----
+
+tibble(tipo = c("Participación en la elección federal de 2018", "Votos recibidos por AMLO en la elección presidencial de 2018", "Votos recibidos por candidates de Morena a Dip. Fed. en 2018", "Votos recibidos por candidates de Morena al Senado en 2018", "Participación en la consulta del NAIM", "Participación en la consulta del consulta de los 10 Programas Prioritarios"),
+       votos = c(56512557, 30113483, 20972573, 21261577, 1096990, 946081),
+       para_color = c("Fed", "Morena", "Morena", "Morena", "Morena", "Morena")) %>% 
+  mutate(valor_grandes = ifelse(votos > 1500000, paste(round(votos/1000000, 1), "millones", sep = " "), ""),
+         valor_pequenos = ifelse(votos < 1500000, paste(round(votos/1000000, 1), "millones", sep = " "), "")) %>% 
+  ggplot(aes(fct_reorder(str_wrap(tipo, width = 25), votos/1000000), votos/1000000)) +
+  geom_col(fill = "steelblue") +
+  geom_text(aes(label = valor_grandes), color = "white", size = 6, fontface = "bold", hjust = 1.1) +
+  geom_text(aes(label = valor_pequenos), color = "grey60", size = 6, fontface = "bold", hjust = -0.1) +
+  coord_flip() +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 58)) +
+  labs(title = str_to_upper(str_wrap("comparación del número de votos registrados en las dos consultas nacionales de amlo vs. ...", width = 55)),
+       x = "\n",
+       y = "\nMillones de votos\n",
+       caption = str_wrap("\nSebastián Garrido de Sierra / @segasi / Fuente: INE y México Decide", width = 120)) +
+  tema
+
+ggsave(filename = "participacion_consulta_vs_benchmarks.png", path = "03_graficas/", width = 15, height = 10, dpi = 100)  
 
 ### Gráfica: Número de votos registrados en cada estado de la república durante la consulta ----
 voto_por_edo %>% 
