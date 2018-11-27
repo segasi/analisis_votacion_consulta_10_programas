@@ -361,3 +361,46 @@ voto_por_mpo %>%
   tema
 
 ggsave(filename = "municpios_gano_no.png", path = "03_graficas/", width = 15, height = 13, dpi = 100)
+
+
+# Gráfica: núm. casillas en los que ganó la opción "NO" en alguna de las 10 preguntas incluidas en la consulta ---
+
+voto_por_casilla %>% 
+  summarise(gano_no_p01 = sum(suma_p01_no > suma_p01_si),
+            gano_no_p02 = sum(suma_p02_no > suma_p02_si),
+            gano_no_p03 = sum(suma_p03_no > suma_p03_si),
+            gano_no_p04 = sum(suma_p04_no > suma_p04_si),
+            gano_no_p05 = sum(suma_p05_no > suma_p05_si),
+            gano_no_p06 = sum(suma_p06_no > suma_p06_si),
+            gano_no_p07 = sum(suma_p07_no > suma_p07_si),
+            gano_no_p08 = sum(suma_p08_no > suma_p08_si),
+            gano_no_p09 = sum(suma_p09_no > suma_p09_si),
+            gano_no_p10 = sum(suma_p10_no > suma_p10_si)) %>%
+  gather(key = pregunta,
+         value = valor) %>% 
+  mutate(pregunta = case_when(pregunta == "gano_no_p01" ~ "1. Construir el Tren Maya",
+                              pregunta == "gano_no_p02" ~ "2. Construir el tren del Itsmo",
+                              pregunta == "gano_no_p03" ~ "3. Construir la refinería en Dos Bocas",
+                              pregunta == "gano_no_p04" ~ "4. Plantar árboles en 1 M de hectáres",
+                              pregunta == "gano_no_p05" ~ "5. Duplicar pensión a adultos mayores de 68 años",
+                              pregunta == "gano_no_p06" ~ "6. Otorgar becas y capacitación a 2.6 millones de jóvenes",
+                              pregunta == "gano_no_p07" ~ "7. Becar a estudiantes de escuelas públicas de NMS",
+                              pregunta == "gano_no_p08" ~ "8. Pensionar a 1 M de personas que viven con alguna discapacidad",
+                              pregunta == "gano_no_p09" ~ "9. Garantizar atención médica y medicinas a población sin servicios de salud",
+                              pregunta == "gano_no_p10" ~ "10. Proveer cobertura gratuita de internet"),
+         pregunta = str_wrap(pregunta, width = 35), 
+         pregunta = fct_rev(fct_relevel((pregunta), "10. Proveer cobertura gratuita de\ninternet", after = Inf)),
+         valor_texto = ifelse(valor > 0, valor, "")) %>%
+  ggplot(aes(x = pregunta, y = valor)) +
+  geom_col(color = "steelblue") +
+  geom_text(aes(label = valor), hjust = -1, size = 6, color = "salmon", fontface = "bold") +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, 1150), breaks = c(seq(0, 1000, 200), 1096), labels = comma) +
+  labs(title = str_wrap("NÚMERO DE CASILLAS EN LAS QUE GANÓ LA OPCIÓN \"NO\" EN ALGUNA DE LAS 10 PREGUNTAS INCLUIDAS EN LA CONSULTA", width = 65),
+       subtitle = str_wrap("La base de datos de México Decide incluye información de hasta 1,096 casillas", width = 150),
+       x = NULL,
+       y = "\nNúmero de casillas\n",
+       caption = str_wrap("\nSebastián Garrido de Sierra / @segasi / Fuente: México Decide", width = 120)) +
+  tema
+
+ggsave(filename = "casillas_gano_no.png", path = "03_graficas/", width = 15, height = 13, dpi = 100)  
