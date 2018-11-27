@@ -316,7 +316,7 @@ tibble(tipo = c("Participación en la elección federal de 2018", "Votos recibid
   geom_text(aes(label = valor_pequenos), color = "grey60", size = 6, fontface = "bold", hjust = -0.1) +
   coord_flip() +
   scale_y_continuous(expand = c(0, 0), limits = c(0, 58)) +
-  labs(title = str_to_upper(str_wrap("comparación del número de votos registrados en las dos consultas nacionales de amlo vs. ...", width = 55)),
+  labs(title = str_to_upper(str_wrap("comparación del número de votos registrados en las dos consultas nacionales vs. ...", width = 55)),
        x = "\n",
        y = "\nMillones de votos\n",
        caption = str_wrap("\nSebastián Garrido de Sierra / @segasi / Fuente: INE y México Decide", width = 120)) +
@@ -434,7 +434,7 @@ voto_por_casilla %>%
   geom_histogram(aes(votos_por_minuto), bins = 60, fill = "steelblue", color = "white") +
   labs(title = str_wrap("DISTRIBUCIÓN DE LOS VOTOS POR MINUTO RECIBIDOS EN LAS CASILLAS DE LA CONSULTA DE LOS 10 PROGRAMAS PRIORITARIOS", width = 75),
        subtitle = str_wrap("Para este cálculo consideré que las casillas estuvieron en funcionamiento 1,200 minutos,* equivalentes a 60 minutos x 10 horas x 2 días", width = 150),
-       x = "Votos por minuto\n",
+       x = "\nPromedio de votos\npor minuto\n",
        y = "\nNúmero de casillas\n",
        caption = str_wrap("\nSebastián Garrido de Sierra / @segasi / Fuente: México Decide / *Nota: A diferencia de la consulta sobre el NAICM, para ésta no encontré algún documento que indicara el horario de funcionamiento de las casillas. Antes esto, asumí que era el mismo que en la primera consulta.", width = 150)) +
   tema
@@ -450,8 +450,8 @@ voto_por_casilla %>%
   coord_flip() +
   labs(title = str_wrap("DISTRIBUCIÓN DE LOS VOTOS POR MINUTO RECIBIDOS EN LAS CASILLAS DE LA CONSULTA DE LOS 10 PROGRAMAS PRIORITARIOS", width = 75),
        subtitle = str_wrap("Para este cálculo consideré que las casillas estuvieron en funcionamiento 1,200 minutos,* equivalentes a 60 minutos x 10 horas x 2 días", width = 150),
-       x = "Votos por minuto\n",
-       y = "\nNúmero de casillas\n",
+       x = NULL,
+       y = "\nPromedio de votos\npor minuto\n",
        caption = str_wrap("\nSebastián Garrido de Sierra / @segasi / Fuente: México Decide / *Nota: A diferencia de la consulta sobre el NAICM, para ésta no encontré algún documento que indicara el horario de funcionamiento de las casillas. Antes esto, asumí que era el mismo que en la primera consulta.", width = 150)) +
   tema
 
