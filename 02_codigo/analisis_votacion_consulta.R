@@ -302,3 +302,21 @@ voto_acumulado_por_edo <-
          acumulado_p10_si = cumsum(suma_p10_si),
          acumulado_p10_no = cumsum(suma_p10_no)) %>% 
   ungroup()
+
+
+### Gráfica: Número de votos registrados en cada estado de la república durante la consulta ----
+voto_por_edo %>% 
+  mutate(por_edo_p01 = round((suma_p01_total/sum(suma_p01_total))*100, 1)) %>%  
+  ggplot() +
+  geom_treemap(aes(area = suma_p01_total, fill = suma_p01_total), col = "white") +
+  geom_treemap_text(aes(area = suma_p01_total, label = nom_ent), fontface = "bold", color = "white") +
+  geom_treemap_text(aes(area = suma_p01_total, label = comma(suma_p01_total)), color = "white", padding.y = unit(8, "mm"), size = 16) +
+  geom_treemap_text(aes(area = suma_p01_total, label = paste(por_edo_p01, "% del total", sep = "")), color = "white", padding.y = unit(14.5, "mm"), size = 15) +
+  scale_fill_gradient(low = "grey80", high = "steelblue", guide = guide_colorbar(barwidth = 18, nbins = 6), labels = comma, breaks = pretty_breaks(n = 6)) +
+  labs(title = str_to_upper(str_wrap("número de votos registrados en cada estado de la república durante la consulta de los 10 Programas Prioritarios", width = 80)),
+       subtitle = str_wrap("El tamaño de cada rectángulo es proporcional al número de votos emitidos en el estado correspondiente. Mientras más grande y azul el recuadro, mayor el número de votos aportados por dicha entidad.", width = 150),
+       caption = "\nSebastián Garrido de Sierra / @segasi / Fuente: México Decide") +
+  tema +
+  theme(legend.position = "none")
+
+ggsave(filename = "treemap_aportacion_votos_por_edo.png", path = "03_graficas/", width = 15, height = 10, dpi = 100)
